@@ -1,24 +1,85 @@
-import './style.css'
-import javascriptLogo from './javascript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.js'
+import "./style.css";
+import { operate } from "./helpers/operate";
 
-document.querySelector('#app').innerHTML = `
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
-      <img src="${javascriptLogo}" class="logo vanilla" alt="JavaScript logo" />
-    </a>
-    <h1>Hello Vite!</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite logo to learn more
-    </p>
-  </div>
-`
+let firstNum = "";
+let secondNum = "";
+let operator = "";
+let result = "";
 
-setupCounter(document.querySelector('#counter'))
+// elements
+const output = document.querySelector("#output");
+const buttons = document.querySelectorAll("#buttons button");
+
+// functions
+
+function handleButtonClick(value) {
+    if (!isNaN(value)) {
+        if (operator === "") {
+            firstNum += value;
+            output.textContent = firstNum;
+        } else {
+            secondNum += value;
+            output.textContent = firstNum + " " + operator + " " + secondNum;
+        }
+    }
+}
+
+function handleOperator(value) {
+    if (firstNum === "") return;
+
+    if (secondNum !== "") {
+        firstNum = operate(
+            parseFloat(firstNum),
+            parseFloat(secondNum),
+            operator
+        ).toString();
+        secondNum = "";
+    }
+
+    operator = value;
+    output.textContent = firstNum + " " + operator;
+}
+
+function handleEqual() {
+    console.log(firstNum);
+    if (firstNum !== "" && secondNum !== "") {
+        result = operate(
+            parseFloat(firstNum),
+            parseFloat(secondNum),
+            operator
+        ).toString();
+        secondNum = "";
+        operator = "";
+        output.textContent = result;
+        firstNum = result; // Show result
+    }
+}
+
+function handleClear() {
+    firstNum = "";
+    secondNum = "";
+    operator = "";
+    output.textContent = "";
+}
+
+// event listeners
+buttons.forEach((button) => {
+    button.addEventListener("click", () => {
+        const value = button.textContent.trim();
+        console.log(value);
+        if (!isNaN(value)) {
+            handleButtonClick(value); // Call number handler
+        } else if (["+", "-", "×", "÷"].includes(value)) {
+            handleOperator(value); // Call operator handler
+        } else if (value === "=") {
+            handleEqual(); // Call equal handler
+        } else if (value === "C") {
+            handleClear(); // Call clear handler
+        }
+
+        // console.log(`
+        //   firstNum: ${firstNum}
+        //   secondNum: ${secondNum}
+        //   operator: ${operator}`);
+    });
+});
