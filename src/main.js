@@ -10,6 +10,10 @@ let resetFlag = false;
 const output = document.querySelector("#output");
 const buttons = document.querySelectorAll("#buttons button");
 
+function formatNumber(num) {
+    return parseFloat(parseFloat(num).toFixed(2));
+}
+
 function handleButtonClick(value) {
     if (resetFlag) {
         firstNum = "";
@@ -18,9 +22,11 @@ function handleButtonClick(value) {
 
     if (operator === "") {
         firstNum += value;
+        firstNum = formatNumber(firstNum).toString();
         output.textContent = firstNum;
     } else {
         secondNum += value;
+        secondNum = formatNumber(secondNum).toString();
         output.textContent = firstNum + " " + operator + " " + secondNum;
     }
 }
@@ -45,16 +51,12 @@ function handleOperator(value) {
 
 function handleEqual() {
     if (firstNum !== "" && secondNum !== "") {
-        result = operate(
-            parseFloat(firstNum),
-            parseFloat(secondNum),
-            operator
-        ).toString();
+        result = operate(parseFloat(firstNum), parseFloat(secondNum), operator);
+
+        firstNum = formatNumber(result).toString();
         secondNum = "";
         operator = "";
-        output.textContent = result;
-        firstNum = result;
-        resetFlag = true;
+        output.textContent = firstNum;
     }
 }
 
@@ -66,9 +68,6 @@ function handleClear() {
 }
 
 function handleUnary(value) {
-    /**
-     * I think if number is positive, then append a negative to the front of the number, if number is negative, then just remove the negative
-     */
     if (operator === "") {
         firstNum = firstNum.startsWith("-")
             ? firstNum.slice(1)
@@ -78,6 +77,32 @@ function handleUnary(value) {
         secondNum = secondNum.startsWith("-")
             ? secondNum.slice(1)
             : "-" + secondNum;
+        output.textContent = firstNum + " " + operator + " " + secondNum;
+    }
+}
+
+function handleDot() {
+    if (operator === "") {
+        if (!firstNum.includes(".")) {
+            firstNum += firstNum === "" ? "0." : ".";
+            output.textContent = firstNum;
+        }
+    } else {
+        if (!secondNum.includes(".")) {
+            secondNum += secondNum === "" ? "0." : ".";
+            output.textContent = firstNum + " " + operator + " " + secondNum;
+        }
+    }
+}
+
+function handlePercentage() {
+    if (operator === "") {
+        firstNum = formatNumber(parseFloat(firstNum) / 100).toString();
+        output.textContent = firstNum;
+    } else if (secondNum !== "") {
+        secondNum = formatNumber(
+            parseFloat(firstNum) * (parseFloat(secondNum) / 100)
+        ).toString();
         output.textContent = firstNum + " " + operator + " " + secondNum;
     }
 }
@@ -96,6 +121,10 @@ buttons.forEach((button) => {
             handleEqual();
         } else if (value === "C") {
             handleClear();
+        } else if (value === ".") {
+            handleDot();
+        } else if (value === "%") {
+            handlePercentage();
         }
     });
 });
