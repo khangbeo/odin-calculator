@@ -10,7 +10,6 @@ A simple yet functional calculator built as part of [The Odin Project](https://w
 -   **Clear Functionality:** Resets all values and starts a fresh calculation.
 -   **Error Handling:** Prevents division by zero and invalid operations.
 -   **Precision Control:** Rounds long decimals to prevent overflow.
--   **Keyboard Support:** Perform calculations using your keyboard.
 -   **Backspace Functionality:** Remove the last inputted character.
 -   **Decimal Support:** Input floating-point numbers with the `.` button.
 
@@ -66,15 +65,14 @@ A simple yet functional calculator built as part of [The Odin Project](https://w
 
 -   **Decimal support:** Users can input floating-point numbers.
 -   **Backspace functionality:** Remove the last digit entered.
--   **Keyboard support:** Allow number and operator input via keyboard.
 
 ---
 
 ## 🛠️ Technologies Used
 
 -   **HTML** → Structure and layout
--   **CSS / Tailwind CSS** → Styling
--   **JavaScript (ES6)** → Logic & interactivity
+-   **Tailwind CSS** → Styling
+-   **JavaScript** → Logic & interactivity
 -   **Vite** → Fast development and build tool
 
 ---
@@ -88,8 +86,7 @@ The project is deployed on **Vercel**:
 **To deploy manually:**
 
 1. Run `npm run build`
-2. Push the `dist/` folder to GitHub
-3. Configure **GitHub Pages** to serve from the `/docs/` or `gh-pages` branch.
+2. Deploy on Vercel or other services
 
 ---
 
@@ -99,6 +96,7 @@ The project is deployed on **Vercel**:
 🔹 Add **scientific calculator functions** (square root, exponentiation, etc.)  
 🔹 Implement **local storage** to save previous calculations  
 🔹 Improve error handling for **more complex operations**
+🔹 Add Keyboard Support
 
 ---
 
