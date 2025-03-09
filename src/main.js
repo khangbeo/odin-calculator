@@ -27,7 +27,6 @@ function updateDisplay() {
 }
 
 function handleButtonClick(value) {
-    // if reset flag is true, then clear out number and set it back to false
     if (resetFlag) {
         firstNum = "";
         resetFlag = false;
@@ -45,7 +44,6 @@ function handleButtonClick(value) {
 
 function handleOperator(value) {
     if (firstNum === "") return;
-
     if (resetFlag) resetFlag = false;
 
     if (secondNum !== "") {
@@ -62,9 +60,8 @@ function handleOperator(value) {
 }
 
 function handleEqual() {
-    if (firstNum !== "" && secondNum !== "") {
+    if (firstNum && secondNum) {
         result = operate(parseFloat(firstNum), parseFloat(secondNum), operator);
-
         firstNum = formatNumber(result).toString();
         secondNum = "";
         operator = "";
@@ -77,50 +74,61 @@ function handleClear() {
     firstNum = "";
     secondNum = "";
     operator = "";
+    resetFlag = false;
     updateDisplay();
 }
 
-function handleUnary(value) {
+function handleUnary() {
     if (firstNum === "") return;
     if (operator === "") {
         firstNum = firstNum.startsWith("-")
             ? firstNum.slice(1)
             : "-" + firstNum;
-        updateDisplay();
     } else {
         secondNum = secondNum.startsWith("-")
             ? secondNum.slice(1)
             : "-" + secondNum;
-        updateDisplay();
     }
+
+    updateDisplay();
 }
 
 function handleDot() {
     if (operator === "") {
         if (!firstNum.includes(".")) {
             firstNum += firstNum === "" ? "0." : ".";
-            updateDisplay();
         }
     } else {
         if (!secondNum.includes(".")) {
             secondNum += secondNum === "" ? "0." : ".";
-            updateDisplay();
         }
     }
+    updateDisplay();
 }
 
 function handlePercentage() {
     if (firstNum === "") return;
     if (operator === "") {
         firstNum = formatNumber(parseFloat(firstNum) / 100).toString();
-        updateDisplay();
     } else if (secondNum !== "") {
         secondNum = formatNumber(
             parseFloat(firstNum) * (parseFloat(secondNum) / 100)
         ).toString();
-        updateDisplay();
     }
+    updateDisplay();
 }
+
+const actions = {
+    "+": handleOperator,
+    "-": handleOperator,
+    "×": handleOperator,
+    "÷": handleOperator,
+    "+/-": handleUnary,
+    "=": handleEqual,
+    C: handleClear,
+    ".": handleDot,
+    "%": handlePercentage,
+};
 
 buttons.forEach((button) => {
     button.addEventListener("click", () => {
@@ -128,18 +136,8 @@ buttons.forEach((button) => {
 
         if (!isNaN(value)) {
             handleButtonClick(value);
-        } else if (["+", "-", "×", "÷"].includes(value)) {
-            handleOperator(value);
-        } else if (value === "+/-") {
-            handleUnary(value);
-        } else if (value === "=") {
-            handleEqual();
-        } else if (value === "C") {
-            handleClear();
-        } else if (value === ".") {
-            handleDot();
-        } else if (value === "%") {
-            handlePercentage();
+        } else if (actions[value]) {
+            actions[value](value);
         }
     });
 });
