@@ -84,18 +84,32 @@ function handleClear() {
     updateDisplay();
 }
 
-function handleUnary() {
-    if (firstNum === "") return;
-    if (operator === "") {
-        firstNum = firstNum.startsWith("-")
-            ? firstNum.slice(1)
-            : "-" + firstNum;
-    } else {
-        secondNum = secondNum.startsWith("-")
-            ? secondNum.slice(1)
-            : "-" + secondNum;
-    }
+// function handleUnary() {
+//     if (firstNum === "") return;
+//     if (operator === "") {
+//         firstNum = firstNum.startsWith("-")
+//             ? firstNum.slice(1)
+//             : "-" + firstNum;
+//     } else {
+//         secondNum = secondNum.startsWith("-")
+//             ? secondNum.slice(1)
+//             : "-" + secondNum;
+//     }
 
+//     updateDisplay();
+// }
+
+function handleBackspace() {
+    if (resetFlag) {
+        firstNum = "";
+        updateDisplay();
+        return;
+    }
+    if (operator === "") {
+        firstNum = firstNum.slice(0, -1);
+    } else {
+        secondNum = secondNum.slice(0, -1);
+    }
     updateDisplay();
 }
 
@@ -129,7 +143,8 @@ const actions = {
     "-": handleOperator,
     "×": handleOperator,
     "÷": handleOperator,
-    "+/-": handleUnary,
+    // "+/-": handleUnary,
+    "⌫": handleBackspace,
     "=": handleEqual,
     C: handleClear,
     ".": handleDot,
