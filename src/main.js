@@ -68,6 +68,7 @@ function handleClear() {
 }
 
 function handleUnary(value) {
+    if (firstNum === "") return;
     if (operator === "") {
         firstNum = firstNum.startsWith("-")
             ? firstNum.slice(1)
@@ -96,6 +97,7 @@ function handleDot() {
 }
 
 function handlePercentage() {
+    if (firstNum === "") return;
     if (operator === "") {
         firstNum = formatNumber(parseFloat(firstNum) / 100).toString();
         output.textContent = firstNum;
