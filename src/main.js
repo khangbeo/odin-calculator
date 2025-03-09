@@ -61,6 +61,12 @@ function handleOperator(value) {
 
 function handleEqual() {
     if (firstNum && secondNum) {
+        if (operator === "÷" && parseFloat(secondNum) === 0) {
+            output.textContent = "You can't divide by 0";
+            resetFlag = true;
+            return;
+        }
+
         result = operate(parseFloat(firstNum), parseFloat(secondNum), operator);
         firstNum = formatNumber(result).toString();
         secondNum = "";
