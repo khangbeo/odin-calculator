@@ -83,7 +83,7 @@ A simple yet functional calculator built as part of [The Odin Project](https://w
 
 The project is deployed on **GitHub Pages / Vercel**:
 
-🔗 **Live Demo:** [Click Here](https://khangbeo.github.io/odin-calculator/)
+🔗 **Live Demo:** [Click Here](odin-calculator-flame.vercel.app/)
 
 **To deploy manually:**
 
