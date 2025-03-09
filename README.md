@@ -81,7 +81,7 @@ A simple yet functional calculator built as part of [The Odin Project](https://w
 
 ## 🖥️ Deployment
 
-The project is deployed on **GitHub Pages / Vercel**:
+The project is deployed on **Vercel**:
 
 🔗 **Live Demo:** [Click Here](odin-calculator-flame.vercel.app/)
 
